@@ -1,0 +1,135 @@
+import React, { useState } from "react";
+import axios from "axios";
+
+export default function Chatbot() {
+  const [chat, setChat] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleAsk = async () => {
+    if (!input.trim()) return;
+
+    const newChat = [...chat, { role: "user", text: input }];
+    setChat(newChat);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const res = await axios.post("http://localhost:5000/ask", {
+        question: input,
+      });
+
+      setChat([
+        ...newChat,
+        { role: "bot", text: res.data.answer || "No response." },
+      ]);
+    } catch (err) {
+      console.error(err);
+      setChat([
+        ...newChat,
+        { role: "bot", text: "⚠️ Error: Could not fetch response." },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="h-screen w-full flex bg-gradient-to-r from-[#D7D7D7] via-white to-[#447D9B]/10">
+      {/* Left Section - Info */}
+      <div className="w-1/3 bg-[#273F4F] text-white border-r border-[#FE7743]/40 p-6 overflow-y-auto">
+        <h2 className="text-2xl font-bold text-[#FE7743] mb-4">
+          🎓 How this Chatbot Helps
+        </h2>
+        <p className="text-[#D7D7D7] mb-6 leading-relaxed">
+          ✅ Get instant{" "}
+          <span className="font-semibold text-[#447D9B]">
+            career guidance after 10th & 12th
+          </span>{" "}
+          based on your interests and strengths.
+          <br />
+          ✅ Explore streams like Science, Commerce, Arts, and Vocational fields.
+          <br />
+          ✅ Compare career options, higher studies, and job opportunities.
+        </p>
+
+        <h3 className="text-xl font-semibold text-[#FE7743] mb-3">
+          🏆 Popular Career Paths
+        </h3>
+        <ul className="list-disc list-inside text-[#D7D7D7] space-y-1 text-sm">
+          <li>1. Engineering & Technology</li>
+          <li>2. Medicine & Healthcare</li>
+          <li>3. Commerce & Management</li>
+          <li>4. Arts, Humanities & Social Sciences</li>
+          <li>5. Computer Science & AI/ML</li>
+          <li>6. Law & Civil Services</li>
+          <li>7. Design, Media & Communication</li>
+          <li>8. Vocational & Skill-based Careers</li>
+          <li>9. Entrepreneurship & Startups</li>
+          <li>10. Government Jobs & Defence</li>
+        </ul>
+      </div>
+
+      {/* Right Section - Chatbot */}
+      <div className="flex flex-col flex-1">
+        {/* Header */}
+        <div className="bg-[#273F4F] text-white py-4 px-6 flex items-center shadow-md">
+          <div className="w-10 h-10 rounded-full bg-[#FE7743] flex items-center justify-center mr-3 text-white font-bold">
+            🤖
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold">Career Guidance Chatbot</h1>
+            <p className="text-sm text-[#D7D7D7]">
+              💡 Ask about courses, career options & future opportunities
+            </p>
+          </div>
+        </div>
+
+        {/* Chatbox */}
+        <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-[#D7D7D7]/50 to-white">
+          {chat.map((c, i) => (
+            <div
+              key={i}
+              className={`mb-3 flex ${
+                c.role === "user" ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`px-4 py-3 rounded-2xl shadow-md max-w-xs md:max-w-sm break-words text-sm ${
+                  c.role === "user"
+                    ? "bg-[#FE7743] text-white rounded-br-none"
+                    : "bg-[#447D9B] text-white rounded-bl-none"
+                }`}
+              >
+                <b>{c.role === "user" ? "👤 You" : "🤖 Bot"}:</b> {c.text}
+              </div>
+            </div>
+          ))}
+          {loading && (
+            <p className="text-center text-[#447D9B] italic animate-pulse">
+              🤔 Bot is thinking...
+            </p>
+          )}
+        </div>
+
+        {/* Input box */}
+        <div className="bg-[#D7D7D7] border-t border-[#FE7743]/40 p-4 flex items-center">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAsk()}
+            className="flex-1 border border-[#447D9B] px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FE7743] bg-white"
+            placeholder="Type your career query... 🖊️"
+          />
+          <button
+            onClick={handleAsk}
+            disabled={loading}
+            className="ml-3 bg-[#273F4F] hover:bg-[#FE7743] text-white px-5 py-2 rounded-full shadow-md transition-all duration-300"
+          >
+            {loading ? "..." : "Send 🚀"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
