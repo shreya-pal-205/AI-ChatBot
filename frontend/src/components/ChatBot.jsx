@@ -15,7 +15,7 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/ask", {
+      const res = await axios.post("https://ai-chatbot-backend-fuui.onrender.com/ask", {
         question: input,
       });
 
