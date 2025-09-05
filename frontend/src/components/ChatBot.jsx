@@ -73,8 +73,8 @@ export default function Chatbot() {
 
       {/* Right Section - Chatbot */}
       <div className="flex flex-col flex-1 w-full">
-        {/* Header (like WhatsApp top bar on mobile) */}
-        <div className="bg-[#273F4F] text-white py-4 px-4 flex items-center shadow-md">
+        {/* Header */}
+        <div className="bg-[#273F4F] text-white py-4 px-4 flex items-center shadow-md sticky top-0 z-10">
           <div className="w-10 h-10 rounded-full bg-[#FE7743] flex items-center justify-center mr-3 text-white font-bold">
             🤖
           </div>
@@ -98,10 +98,10 @@ export default function Chatbot() {
               }`}
             >
               <div
-                className={`px-4 py-2 rounded-2xl shadow-md max-w-[75%] sm:max-w-sm md:max-w-md text-sm ${
+                className={`px-4 py-2 rounded-2xl shadow-md max-w-[75%] sm:max-w-sm md:max-w-md text-sm break-words ${
                   c.role === "user"
-                    ? "bg-[#25D366] text-white rounded-br-none" // WhatsApp green bubble
-                    : "bg-white text-gray-900 border border-gray-200 rounded-bl-none" // Bot bubble
+                    ? "bg-[#FE7743] text-white rounded-br-none"
+                    : "bg-[#447D9B] text-white rounded-bl-none"
                 }`}
               >
                 {c.text}
@@ -109,27 +109,27 @@ export default function Chatbot() {
             </div>
           ))}
           {loading && (
-            <p className="text-center text-gray-500 italic animate-pulse">
-              🤔 Bot is typing...
+            <p className="text-center text-[#447D9B] italic animate-pulse">
+              🤔 Bot is thinking...
             </p>
           )}
         </div>
 
-        {/* Input box (fixed at bottom for mobile feel) */}
-        <div className="bg-[#F0F0F0] border-t border-gray-300 p-2 sm:p-4 flex items-center gap-2">
+        {/* Input box */}
+        <div className="bg-[#F0F0F0] border-t border-gray-300 p-2 sm:p-4 flex items-center gap-2 sticky bottom-0">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-            className="flex-1 w-full border border-gray-300 px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-1 focus:ring-[#25D366] bg-white text-sm"
-            placeholder="Type your message..."
+            className="flex-1 w-full border border-gray-300 px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FE7743] bg-white text-sm"
+            placeholder="Type your career query..."
           />
           <button
             onClick={handleAsk}
             disabled={loading}
-            className="bg-[#25D366] hover:bg-[#20b358] text-white px-5 py-2 rounded-full shadow-md transition-all duration-300 text-sm"
+            className="bg-[#273F4F] hover:bg-[#FE7743] text-white px-5 py-2 rounded-full shadow-md transition-all duration-300 text-sm"
           >
-            {loading ? "..." : "Send"}
+            {loading ? "..." : "Send 🚀"}
           </button>
         </div>
       </div>
