@@ -37,8 +37,8 @@ export default function Chatbot() {
 
   return (
     <div className="h-screen w-full flex flex-col md:flex-row bg-gradient-to-r from-[#D7D7D7] via-white to-[#447D9B]/10">
-      {/* Left Section - Info */}
-      <div className="w-full md:w-1/3 bg-[#273F4F] text-white border-r border-[#FE7743]/40 p-6 overflow-y-auto">
+      {/* Left Section - Info (hidden on mobile) */}
+      <div className="hidden md:block md:w-1/3 bg-[#273F4F] text-white border-r border-[#FE7743]/40 p-6 overflow-y-auto">
         <h2 className="text-2xl font-bold text-[#FE7743] mb-4">
           🎓 How this Chatbot Helps
         </h2>
@@ -73,8 +73,8 @@ export default function Chatbot() {
 
       {/* Right Section - Chatbot */}
       <div className="flex flex-col flex-1 w-full">
-        {/* Header */}
-        <div className="bg-[#273F4F] text-white py-4 px-4 sm:px-6 flex items-center shadow-md">
+        {/* Header (like WhatsApp top bar on mobile) */}
+        <div className="bg-[#273F4F] text-white py-4 px-4 flex items-center shadow-md">
           <div className="w-10 h-10 rounded-full bg-[#FE7743] flex items-center justify-center mr-3 text-white font-bold">
             🤖
           </div>
@@ -89,7 +89,7 @@ export default function Chatbot() {
         </div>
 
         {/* Chatbox */}
-        <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-gradient-to-b from-[#D7D7D7]/50 to-white">
+        <div className="flex-1 p-3 sm:p-6 overflow-y-auto bg-gradient-to-b from-[#ECECEC] to-white">
           {chat.map((c, i) => (
             <div
               key={i}
@@ -98,38 +98,38 @@ export default function Chatbot() {
               }`}
             >
               <div
-                className={`px-3 sm:px-4 py-2 sm:py-3 rounded-2xl shadow-md max-w-[80%] sm:max-w-sm md:max-w-md break-words text-xs sm:text-sm md:text-base ${
+                className={`px-4 py-2 rounded-2xl shadow-md max-w-[75%] sm:max-w-sm md:max-w-md text-sm ${
                   c.role === "user"
-                    ? "bg-[#FE7743] text-white rounded-br-none"
-                    : "bg-[#447D9B] text-white rounded-bl-none"
+                    ? "bg-[#25D366] text-white rounded-br-none" // WhatsApp green bubble
+                    : "bg-white text-gray-900 border border-gray-200 rounded-bl-none" // Bot bubble
                 }`}
               >
-                <b>{c.role === "user" ? "👤 You" : "🤖 Bot"}:</b> {c.text}
+                {c.text}
               </div>
             </div>
           ))}
           {loading && (
-            <p className="text-center text-[#447D9B] italic animate-pulse">
-              🤔 Bot is thinking...
+            <p className="text-center text-gray-500 italic animate-pulse">
+              🤔 Bot is typing...
             </p>
           )}
         </div>
 
-        {/* Input box */}
-        <div className="bg-[#D7D7D7] border-t border-[#FE7743]/40 p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-2">
+        {/* Input box (fixed at bottom for mobile feel) */}
+        <div className="bg-[#F0F0F0] border-t border-gray-300 p-2 sm:p-4 flex items-center gap-2">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-            className="flex-1 w-full border border-[#447D9B] px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FE7743] bg-white text-sm"
-            placeholder="Type your career query... 🖊️"
+            className="flex-1 w-full border border-gray-300 px-4 py-2 rounded-full shadow-sm focus:outline-none focus:ring-1 focus:ring-[#25D366] bg-white text-sm"
+            placeholder="Type your message..."
           />
           <button
             onClick={handleAsk}
             disabled={loading}
-            className="w-full sm:w-auto bg-[#273F4F] hover:bg-[#FE7743] text-white px-5 py-2 rounded-full shadow-md transition-all duration-300 text-sm"
+            className="bg-[#25D366] hover:bg-[#20b358] text-white px-5 py-2 rounded-full shadow-md transition-all duration-300 text-sm"
           >
-            {loading ? "..." : "Send 🚀"}
+            {loading ? "..." : "Send"}
           </button>
         </div>
       </div>
