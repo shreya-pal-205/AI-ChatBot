@@ -11,12 +11,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 5000;
+
 app.use(express.json());
 
-// 🔥 Allow requests from frontend (5173)
+//  Allow requests from frontend (5173)
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend URL
+    origin: "http://localhost:5173", //frontend URL
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
@@ -91,7 +93,7 @@ app.post("/ask", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(port, () => {
   console.log("🚀 Server running on http://localhost:5000");
   loadPDF();
 });
