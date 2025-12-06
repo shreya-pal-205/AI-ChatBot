@@ -10,7 +10,7 @@ This project uses a **Retrieval-Augmented Generation (RAG)** pipeline with a mod
 
 **🚀 Features**
 
-**🔍 RAG-based Career Assistant**
+**🔍 RAG-based Career Assistant**<br>
 Upload career-related documents or use preloaded knowledge base.
 Extracts relevant information using embeddings + vector similarity search.
 Generates accurate, context-aware responses.
